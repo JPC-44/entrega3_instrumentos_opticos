@@ -2,15 +2,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
-# Parameters
+""" Definición de parámetros en el plano de entrada y su relación con el plano de salida"""
 #---------------------------------------
-N = 720  # data number
-inputPixel = 125 / N  # size / pixels
-outPixel = 3.45E-6  # camera pixel
-f2 = 200E-3        # longitud lente de tubo 
-M = -10            # magnificación
-f1 = f2/(-M)
-lamb = 533E-9      # longitud de onda verde
+N = 2848  # pixel camara data number
+M = -10                     # Magnificación
+f2 = 200E-3                 # Longitud lente de tubo  TL
+f1 = f2/(-M)                # Distancia focal del MO
+lamb = 533E-9               # Longitud de onda verde
+outPixel = 2.74E-6          # Camera pixel 
+inputPixel = (2.74E-6)/M    # El pixel cómo se ve en la entrada. Afectando el FOV.
+NA = 0.25                   # Apertura numérica del objetivo de microscopio sin(theta)
+
+""" Críterio de resolución de Abbe """
+
+abbe = lamb/(2*NA)
+
+
+
+
+
+
 d = 10
 initial_pupil_radius = 1000E-2  # init values
 initial_circ2_radius = 1500E-2  
