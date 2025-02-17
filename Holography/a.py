@@ -237,8 +237,13 @@ def center_image(isolated_image):
 isolated_image = isolate_and_center(hologram_spectrum_log,  (posiciones[0],posiciones[1]), 350, hologram_ft)
 
 
+imagen1 = np.fft.ifft2(np.fft.fftshift(isolated_image))
 
 
+
+plt.imshow(np.log10(1+np.abs(isolated_image)), cmap='gray')
+plt.title('adadadad')
+plt.show()
 
 
 
@@ -247,7 +252,7 @@ image_with_plane_wave = np.fft.ifft2(np.fft.fftshift(isolated_image))
 image_without_plane_wave  = image_with_plane_wave * np.exp(-1j*2*np.pi*X*(np.sin(angle + 80*np.pi/180))/lamb)
 
 
-plt.imshow(np.angle(np.exp(-1j*2*np.pi*X1*(np.sin(angle + 85*np.pi/180))/lamb)), cmap='gray')
+plt.imshow(np.real(np.exp(-1j*2*np.pi*X*(np.sin(angle))/lamb)), cmap='gray')
 plt.show()
 
 
@@ -264,10 +269,14 @@ Guardad_imaginario =np.uint8( 255*np.imag(Guardar)/np.max(np.imag(Guardar)) )
 cv2.imwrite("imagenreal.png",Guardar_real)
 cv2.imwrite("imagenimagin.png",Guardad_imaginario)
 
+plt.imshow((np.abs(Guardar))**2, cmap='gray')
+plt.title("guardar")
+plt.show()
 
 
 
-b = np.log10(np.abs(CTotal)+1)
+
+""" b = np.log10(np.abs(CTotal)+1)
 Binary  = 255*b/np.max(b) > 230
 
 Binary = 1-Binary
@@ -283,5 +292,5 @@ plt.show()
 
 plt.imshow((np.abs(fft_aislado1))**2, cmap='gray')
 plt.title("planewave_spectrum no plane")
-plt.show()
+plt.show() """
 

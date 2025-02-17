@@ -7,16 +7,21 @@ import os
 # Importar máscara para Z=0
 
 
-image = Image.open(r"C:/Users/Usuario/Desktop/GitHub/entrega3_instrumentos_opticos/Hologram.tiff").convert('L')  # Convertir a escala de grises
+""" image = Image.open('D:/Dalej/Taller V/Difracci-n-escalar-discreta/Logo_OD.png').convert('L')  # Convertir a escala de grises """
 
+image2 = Image.open('imagenreal.png').convert('L')  # Convertir a escala de grises
+image2 = np.array(image2, dtype=np.float64)
 
+image3 = Image.open('imagenimagin.png').convert('L')  # Convertir a escala de grises
+image3 = np.array(image3, dtype=np.float64)
 
+Campo = image2 + 1j * image3
 
-Campo = np.array(image)
-U0 = Campo
-λ = 632.80E-9  # Longitud de onda en metros
-pixel = 3.45E-6  # Tamaño de píxel en metros
+λ = 633e-9  # Longitud de onda en metros
+pixel = 3.45e-6  # Tamaño de píxel en metros
 
+#U0 = np.array(image, dtype=np.float64)  # Convertir imagen a float64 para mayor precisión
+U0 = np.array(Campo, dtype=np.complex128)  # Usar tipo complejo
 
 
 # Crear carpeta para guardar las imágenes
