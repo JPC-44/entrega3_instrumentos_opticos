@@ -11,8 +11,8 @@ import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Ruta completa a la imagen
-image_path = os.path.join(current_dir, "DIEGO - 2025  resolution test chart.png")
-image_path = os.path.join(current_dir, "USAF-1961 1px = 274nm.png")
+image_path = os.path.join(current_dir, "DIEGO_2025_resolution_test_chart.png")
+#image_path = os.path.join(current_dir, "USAF-1961 1px = 274nm.png")
 
 image = Image.open(image_path).convert('L')    #Conver("L"), converts image into gray scale
 
@@ -89,8 +89,6 @@ pixelf = 1/N*pixel0         #Tamaño del pixel en el espacio de frecuencia
 
 
 FOV = N*pixel0             #Campo de vision del plano de entrada en metros
-
-print (FOV)
 
 NA=0.25                     #Numerical Aperture
 
