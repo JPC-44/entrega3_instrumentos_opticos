@@ -36,7 +36,7 @@ def Propagation1(U0, λ, NA, pixel, M, N):
     """
 
     # Calcular la frecuencia máxima permitida por el sistema óptico
-    f_max = (2*NA / λ)               #Se multiplica *2 ya que las frecuencias de np.fft.fftfreq estan normalizadas por lo que se crearia una mascara de la mitad del diametro si no se multiplica
+    f_max = (NA / λ)              
 
     # Calcular el tamaño del píxel en el dominio de Fourier
     delta_f_x = 1 / (N * pixel)
@@ -92,7 +92,7 @@ FOV = N*pixel0             #Campo de vision del plano de entrada en metros
 
 NA=0.25                     #Numerical Aperture
 
-f_max=2*NA/λ                     #Maxima frecuencia que admite el sistema
+f_max=NA/λ                     #Maxima frecuencia que admite el sistema
 
 
 #Campo optico en el plano de la pupila
@@ -153,14 +153,14 @@ if not isinstance(image_reconstructed, np.ndarray):
 image_reconstructed =  np.abs(image_reconstructed-255)
 y_center = image_reconstructed.shape[0] // 2  # Tomar la fila central
 intensity_profile =  image_reconstructed[y_center, :]  # Extraer la intensidad a lo largo del eje X
-smoothed_intensity = scipy.ndimage.gaussian_filter1d(intensity_profile, sigma=2)
+smoothed_intensity = scipy.ndimage.gaussian_filter1d(intensity_profile, sigma=1)
 
 # Graficar la intensidad suavizada en función de la posición en X
 plt.figure(figsize=(12, 5))
 plt.plot(np.arange(len(smoothed_intensity)), smoothed_intensity, color='black', linewidth=2)
 plt.xlabel("Posición en X (píxeles)")
 plt.ylabel("Intensidad (0 = blanco, 255 = negro)")
-plt.title("Perfil de Intensidad a lo Largo del Eje X (Suavizado)")
+plt.title("Perfil de Intensidad a lo Largo del Eje X")
 plt.grid(True)
 plt.show()
 
