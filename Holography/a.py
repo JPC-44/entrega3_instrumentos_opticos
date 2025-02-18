@@ -4,6 +4,7 @@ from matplotlib.widgets import Slider
 from PIL import Image
 import cv2
 from scipy.ndimage import label, center_of_mass
+import os
 
 
 """ Definición de parámetros en el plano de entrada y su relación con el plano de salida"""
@@ -22,14 +23,17 @@ outPixel = 3.45E-6          # Camera pixel
 
 #abbe = lamb/(2*NA)
 
-ruta_imagen = r"C:/Users/Usuario/Desktop/GitHub/entrega3_instrumentos_opticos/Hologram.tiff"
+# Obtener la ruta de la carpeta donde está el script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+ruta_imagen = os.path.join(current_dir, "Hologram.tiff")
 holograma = Image.open(ruta_imagen).convert('L')
 
 hologram = np.array(holograma)  # array de holograma
 
 hologram_ft = np.fft.fftshift( np.fft.fft2(hologram) )  # array de la ft del holograma
 
-hologram_spectrum_log = np.uint8(255*np.log10(1+(np.abs(hologram_ft))**2)/np.max(np.log10(1+(np.abs(hologram_ft))**2)))    # array del espectro en escala log10  del holograma
+hologram_spectrum_log = np.uint8(255*np.log10(1+(np.abs(hologram_ft))*2)/np.max(np.log10(1+(np.abs(hologram_ft))*2)))    # array del espectro en escala log10  del holograma
 """ cv2.imwrite("hologram.png",hologram_spectrum_log) """
 binary = hologram_spectrum_log > 220
 
@@ -118,8 +122,8 @@ def etiquetado(binary,spectrum):
     plt.show()
     plane_wave_freq_x = freq_pixel_x*(centers[2][0]-Nx/2)
     plane_wave_freq_y = freq_pixel_y*((centers[2][1]-Ny/2))
-    posiciones = (np.uint16(centers[2][1]),np.uint16(centers[2][0]))
-    wave_plane_freq = np.sqrt(plane_wave_freq_y**2+plane_wave_freq_x**2)
+    posiciones = (np.uint16(centers[0][1]),np.uint16(centers[0][0]))
+    wave_plane_freq = np.sqrt(plane_wave_freq_y*2+plane_wave_freq_x*2)
     print("frecuencia en x",plane_wave_freq_x)
     print("frecuencia en y",plane_wave_freq_y)
     print("frecuencia de onda plana", wave_plane_freq)
@@ -242,20 +246,18 @@ imagen1 = np.fft.ifft2(np.fft.fftshift(isolated_image))
 
 
 plt.imshow(np.log10(1+np.abs(isolated_image)), cmap='gray')
-plt.title('adadadad')
+plt.title("espectro")
+plt.show()
+
+
+plt.imshow((np.abs(imagen1))**2, cmap='gray')
+plt.title('abs')
 plt.show()
 
 
 
-image_with_plane_wave = np.fft.ifft2(np.fft.fftshift(isolated_image))
 
-image_without_plane_wave  = image_with_plane_wave * np.exp(-1j*2*np.pi*X*(np.sin(angle + 80*np.pi/180))/lamb)
-
-
-plt.imshow(np.real(np.exp(-1j*2*np.pi*X*(np.sin(angle))/lamb)), cmap='gray')
-plt.show()
-
-
+""" 
 Creal = np.real(isolated_image)
 Cimag = np.imag(isolated_image)
 C1 = center_image(Creal)
@@ -271,7 +273,7 @@ cv2.imwrite("imagenimagin.png",Guardad_imaginario)
 
 plt.imshow((np.abs(Guardar))**2, cmap='gray')
 plt.title("guardar")
-plt.show()
+plt.show() """
 
 
 
@@ -293,4 +295,3 @@ plt.show()
 plt.imshow((np.abs(fft_aislado1))**2, cmap='gray')
 plt.title("planewave_spectrum no plane")
 plt.show() """
-
